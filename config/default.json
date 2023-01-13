@@ -1,3 +1,12 @@
 {
-  "port" : 5000
+  "server_port" : 9000,
+  "db": {
+    "host": "207.154.205.241",
+    "user": "bright",
+    "password": "8/d9(E5Kip/NSBgO",
+    "database": "bright",
+    "port": 3306
+  }
 }
+
+

@@ -2,12 +2,13 @@ const express = require('express')
 const config = require('config')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const mysql = require('mysql2')
 // init app
 const app = express()
 
 
 // init port
-const PORT = config.get('port') || 6000
+const PORT = config.get('server_port') || 6000
 
 
 // set json
@@ -38,6 +39,14 @@ app.use('/api/group', require('./routes/group.route'))
 
 const serverStart = async () => {
     try {
+        const conn = mysql.createConnection(config.get('db'))
+        conn.connect((err) => {
+            if(err ) {
+                console.log(err)
+            } else {
+                console.log('DB connected!')
+            }
+        })
 
         app.listen( PORT, () => console.log(`Started at port: ${PORT}`) )
 

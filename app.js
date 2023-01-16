@@ -2,7 +2,8 @@ const express = require('express')
 const config = require('config')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const mysql = require('mysql2')
+
+
 // init app
 const app = express()
 
@@ -12,6 +13,7 @@ const PORT = config.get('server_port') || 6000
 
 
 // set json
+
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json())
@@ -32,23 +34,18 @@ app.use('/api/group', require('./routes/group.route'))
 // app.use('/api/comment', require('./routes/comment.route'))
 //
 //
-// app.use('/api/delivery', require('./routes/dilevery.route'))
+// app.use('/api/delivery', require('./routes/delivery.route'))
 // app.use('/api/payment', require('./routes/payment.route'))
 // app.use('/api/price', require('./routes/price.route'))
 // app.use('/api/status', require('./routes/status.route'))
 
+
+
 const serverStart = async () => {
     try {
-        const conn = mysql.createConnection(config.get('db'))
-        conn.connect((err) => {
-            if(err ) {
-                console.log(err)
-            } else {
-                console.log('DB connected!')
-            }
-        })
 
-        app.listen( PORT, () => console.log(`Started at port: ${PORT}`) )
+
+        await app.listen( PORT, () => console.log(`Started at port: ${PORT}`) )
 
     } catch (err) {
         console.log('Server Error', err.message)

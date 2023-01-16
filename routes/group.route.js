@@ -6,6 +6,7 @@ const {
     updateGroup,
     removeGroup
 } = require('../controllers/group.controller')
+
 const router = Router()
 
 router.get(
@@ -13,7 +14,7 @@ router.get(
     getGroups
     )
 router.get(
-    ':id',
+    '/:id',
     getGroupById
 )
 
@@ -23,12 +24,12 @@ router.post(
 )
 
 router.put(
-    '/',
+    '/:id',
     updateGroup
 )
 
 router.delete(
-    '/',
+    '/:id',
     removeGroup
 )
 

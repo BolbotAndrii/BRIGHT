@@ -3,12 +3,12 @@ const Joi = require('joi')
 
 const getGroups = async (req, res) => {
     try {
-        await connection.promise().query('SELECT * FROM `groups`' )
-           .then( (results) => {
-               return res.status(200).json(results[0])
-        }).catch(e => {
+        await connection.promise().query('SELECT * FROM `groups`')
+            .then((results) => {
+                return res.status(200).json(results[0])
+            }).catch(e => {
                 return res.status(400).json({message: `${e}`})
-        })
+            })
 
     } catch (e) {
         return res.status(500).json({message: `${e}`})
@@ -18,16 +18,16 @@ const getGroups = async (req, res) => {
 const getGroupById = async (req, res) => {
     try {
         const id = req.params.id
-         await connection.promise().query('SELECT * FROM `groups` WHERE id=?', id )
-            .then(  ( results) => {
-                if(results[0].length  < 1) {
-                    return res.status(200).json({  message: `Group with id ${id} is not found!` })
+        await connection.promise().query('SELECT * FROM `groups` WHERE id=?', id)
+            .then((results) => {
+                if (results[0].length < 1) {
+                    return res.status(200).json({message: `Group with id ${id} is not found!`})
                 } else {
                     return res.status(200).json(results[0])
                 }
 
             }).catch(e => {
-               return res.status(400).json({message: `${e}`})
+                return res.status(400).json({message: `${e}`})
             })
 
     } catch (e) {
@@ -72,15 +72,15 @@ const createGroup = async (req, res) => {
         }
 
         const valid = schema.validate(model)
-        if(valid.error) {
+        if (valid.error) {
             return res.status(404).json({
                 message: valid.error.message
             })
         }
-        await connection.promise().query('INSERT INTO `groups` VALUES (id, create_date, title_ua, title_en, title_ru, active)', model )
-            .then(  ( results) => {
+        await connection.promise().query('INSERT INTO `groups` VALUES (id, create_date, title_ua, title_en, title_ru, active)', model)
+            .then((results) => {
                 return res.status(200).json({
-                    message: "Group created successfully" ,
+                    message: "Group created successfully",
                     result: true,
                     data: results[0]
                 })
@@ -95,7 +95,16 @@ const createGroup = async (req, res) => {
 
 const updateGroup = async (req, res) => {
     try {
-        res.status(200).json({message: 'ok'})
+        await connection.promise().query('INSERT INTO `groups` VALUES (id, create_date, title_ua, title_en, title_ru, active)', model)
+            .then((results) => {
+                return res.status(200).json({
+                    message: "Group updated successfully",
+                    result: true,
+                    data: results[0]
+                })
+            }).catch(e => {
+                return res.status(400).json({message: `${e}`})
+            })
     } catch (e) {
         res.status(500).json({message: `${e}`})
     }
@@ -107,12 +116,12 @@ const removeGroup = async (req, res) => {
         const id = req.params.id
 
         await connection.promise().query('SELECT `id` FROM `groups` WHERE id=?', id)
-            .then(  ( results) => {
-                if(!results[0][0]) {
+            .then((results) => {
+                if (!results[0][0]) {
                     return res.status(400).json({message: `Group with ${id} does not exist`})
                 } else {
                     connection.promise().query('DELETE FROM `groups` WHERE id=?', id)
-                        .then(  ( results) => {
+                        .then((results) => {
                             return res.status(200).json({
                                 message: `Group with ${id} deleted successfully`,
                                 result: true,
